@@ -1,0 +1,5 @@
+export const Play = {
+    hamlet: { name: 'Hamlet', type: 'tragedy' },
+    aslike: { name: 'As You Like It', type: 'comedy' },
+    othello: { name: 'Othello', type: 'tragedy' }
+};
