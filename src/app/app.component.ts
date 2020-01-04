@@ -77,16 +77,11 @@ export class AppComponent implements OnInit  {
         minimumFractionDigits: 2
       }).format;
     for (const perf of invoice.performances) {
-      let thisAmount = this.amountFor(perf);
-
-      // add volume credits
-      volumeCredits += Math.max(perf.audience - 30, 0);
-      // add extra credit for every ten comedy attendees
-      if ('comedy' === this.playFor(perf).type) volumeCredits += Math.floor(perf.audience / 5);
+      volumeCredits += this.volumenCreditsFor(perf);
 
       // print line for this order
-      result += ` ${this.playFor(perf).name}: ${format(thisAmount / 100)} (${perf.audience} seats)\n`;
-      totalAmount += thisAmount;
+      result += ` ${this.playFor(perf).name}: ${format(this.amountFor(perf) / 100)} (${perf.audience} seats)\n`;
+      totalAmount += this.amountFor(perf);
     }
 
     result += `Amount owed is ${format(totalAmount / 100)}\n`;
@@ -118,6 +113,13 @@ export class AppComponent implements OnInit  {
 
   playFor(aPerformance) {
     return this.play[aPerformance.playID];
+  }
+
+  volumenCreditsFor(aPerformance) {
+    let result = 0;
+    result += Math.max(aPerformance.audience - 30, 0);
+    if ('comedy' === this.playFor(aPerformance).type) result += Math.floor(aPerformance.audience / 5);
+    return result;
   }
 
 
